@@ -1,0 +1,55 @@
+{% extends './base.html.twig' %}
+{% block title %}Bitcoin exchange rate{% endblock %}
+{% block body %}
+    <div class="container">
+        <h1 class="mt-5">Aktuální kurz Bitcoinu</h1>
+        <h6 class="mt-5 d-inline-block">Kurzy aktualizovány v</h6>
+        <h6 class="mt-5 d-inline-block" id="updated"></h6>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Kurz Bitcoinu v USD</h5>
+                        <p class="card-text" id="usd-rate"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Kurz Bitcoinu v EUR</h5>
+                        <p class="card-text" id="eur-rate"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        function loadBitcoinRates() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/bitcoin', true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    document.getElementById("usd-rate").innerText = data.usd + ' $';
+                    document.getElementById("eur-rate").innerText = data.eur + ' Є';
+                    document.getElementById("updated").innerText = data.updated;
+                } else {
+                    document.getElementById("usd-rate").innerText = 'Chyba při načítání dat';
+                    document.getElementById("gbp-rate").innerText = 'Chyba při načítání dat';
+                }
+            };
+
+            xhr.onerror = function () {
+                document.getElementById("usd-rate").innerText = 'Chyba při načítání dat';
+                document.getElementById("gbp-rate").innerText = 'Chyba při načítání dat';
+            };
+            xhr.send();
+        }
+        loadBitcoinRates();
+        setInterval(loadBitcoinRates, 5000);
+    </script>
+{% endblock %}

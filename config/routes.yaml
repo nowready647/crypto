@@ -3,3 +3,11 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+crypto_exchange_rate:
+    path: /
+    controller: App\Controller\CryptoController::getExchangeRate
+
+bitcoin_exchange_rate:
+    path: /bitcoin
+    controller: App\Controller\CryptoController::getBitcoinExchangeRate

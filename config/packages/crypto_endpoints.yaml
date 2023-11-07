@@ -1,0 +1,4 @@
+parameters:
+  crypto_endpoints:
+    bitcoin:
+      url: https://api.coindesk.com/v1/bpi/currentprice.json
